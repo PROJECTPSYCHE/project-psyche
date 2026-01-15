@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Psyche | Psychological Support for Quitting Smokers</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #1e6fa5;
+            --secondary-blue: #3a9bd9;
+            --accent-purple: #7e57c2;
+            --light-purple: #f3e5f5;
+            --light-gray: #f5f7fa;
+            --medium-gray: #e0e0e0;
+            --dark-gray: #333;
+            --text-color: #333;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header & Navigation */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            color: var(--accent-purple);
+            font-size: 1.8rem;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+        }
+        
+        .logo span {
+            color: var(--accent-purple);
+            font-weight: 700;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            color: var(--accent-purple);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-purple);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background-color: #6a48b5;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--accent-purple);
+            border: 2px solid var(--accent-purple);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--accent-purple);
+            color: var(--white);
+        }
+        
+        .btn-success {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+        
+        .btn-success:hover {
+            background-color: #155a8a;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--accent-purple);
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(126, 87, 194, 0.85), rgba(30, 111, 165, 0.9)), url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        /* Features Section */
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--primary-blue);
+        }
+        
+        .section-title h2 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--dark-gray);
+        }
+        
+        .features {
+            padding: 80px 0;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            background-color: var(--light-purple);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .feature-icon i {
+            font-size: 1.8rem;
+            color: var(--accent-purple);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--primary-blue);
+        }
+        
+        /* Community Section */
+        .community {
+            background-color: var(--white);
+            padding: 80px 0;
+        }
+        
+        .community-container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .community-image {
+            flex: 1;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .community-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .community-content {
+            flex: 1;
+        }
+        
+        .community-content h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--primary-blue);
+        }
+        
+        .community-content p {
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+        
+        /* Progress Tracker */
+        .progress-section {
+            padding: 80px 0;
+            background-color: var(--light-gray);
+        }
+        
+        .progress-container {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background-color: var(--medium-gray);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--accent-purple);
+            border-radius: 10px;
+            width: 65%;
+            transition: width 1s;
+        }
+        
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .progress-stat {
+            text-align: center;
+        }
+        
+        .progress-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+        
+        .progress-label {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 0;
+            background-color: var(--white);
+        }
+        
+        .testimonial-slider {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .testimonial {
+            background-color: var(--light-gray);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin: 20px;
+            box-shadow: var(--shadow);
+        }
+        
+        .testimonial-content {
+            font-style: italic;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--accent-purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: bold;
+        }
+        
+        .author-info h4 {
+            color: var(--primary-blue);
+        }
+        
+        .author-info p {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 60px 0 20px;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column a {
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column a:hover {
+            color: var(--white);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #e0e0e0;
+        }
+        
+        /* Psyche Section */
+        .psyche-section {
+            background: linear-gradient(135deg, var(--light-purple), var(--white));
+            padding: 80px 0;
+        }
+        
+        .psyche-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .psyche-container h2 {
+            color: var(--accent-purple);
+            margin-bottom: 30px;
+        }
+        
+        .psyche-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .psyche-step {
+            background: var(--white);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        
+        .psyche-step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-purple);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-weight: bold;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .community-container {
+                flex-direction: column;
+            }
+            
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .auth-buttons {
+                display: none;
+            }
+            
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+            
+            .stats {
+                gap: 20px;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+            
+            .progress-container {
+                padding: 25px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero {
+                padding: 60px 0;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .features, .community, .progress-section, .testimonials, .psyche-section {
+                padding: 60px 0;
+            }
+            
+            .progress-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <h1>Project<span>Psyche</span></h1>
+            </div>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">Progress Tracker</a></li>
+                    <li><a href="#">PsycheEval</a></li>
+                    <li><a href="#">Success Stories</a></li>
+                </ul>
+            </nav>
+            
+            <div class="auth-buttons">
+                <a href="#" class="btn btn-outline">Log In</a>
+                <a href="#" class="btn btn-primary">Sign Up Free</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h2>Let's Quit Together, Bounded by Honor</h2>
+            <p>Join Project Psyche - a psychologically-informed community supporting smokers on their journey to become smoke-free. Share experiences, get psychological evaluation, and achieve your goals with evidence-based support.</p>
+            <a href="#" class="btn btn-success" style="font-size: 1.1rem; padding: 15px 30px;">Start Your Psyche Journey</a>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number">12,584</span>
+                    <span class="stat-label">Members Quitting</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">3.2M</span>
+                    <span class="stat-label">Rolls Not Lighted</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">₦4.8M</span>
+                    <span class="stat-label">Collective Savings</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>How Project Psyche Helps You Succeed</h2>
+                <p>Our platform provides psychological tools and community support you need to successfully quit smoking for good.</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Support Groups</h3>
+                    <p>Connect with others quitting at the same stage. Share challenges, tips, and encouragement in moderated groups.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Progress Tracking</h3>
+                    <p>Track your smoke-free days, health improvements, and money saved with our visual progress dashboard.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Psyche Evaluation</h3>
+                    <p>Psychological assessment to understand your smoking triggers and create personalized quitting strategies.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-book-medical"></i>
+                    </div>
+                    <h3>Expert Resources</h3>
+                    <p>Access psychologically-reviewed articles, quitting strategies, and coping techniques from mental health professionals.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Psyche Evaluation Section -->
+    <section class="psyche-section">
+        <div class="container psyche-container">
+            <h2 class="section-title">Psychological Evaluation Process</h2>
+            <p>Our unique PsycheEval system helps understand the psychological factors behind your smoking habit for better quitting outcomes.</p>
+            
+            <div class="psyche-steps">
+                <div class="psyche-step">
+                    <div class="psyche-step-number">1</div>
+                    <h3>Initial Assessment</h3>
+                    <p>Complete our psychological questionnaire to identify triggers and habits.</p>
+                </div>
+                <div class="psyche-step">
+                    <div class="psyche-step-number">2</div>
+                    <h3>Personalized Plan</h3>
+                    <p>Receive a customized quitting strategy based on your psychological profile.</p>
+                </div>
+                <div class="psyche-step">
+                    <div class="psyche-step-number">3</div>
+                    <h3>Progress Monitoring</h3>
+                    <p>Regular check-ins to adjust your plan based on psychological feedback.</p>
+                </div>
+            </div>
+            
+            <a href="#" class="btn btn-primary" style="margin-top: 40px;">Take PsycheEval Assessment</a>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section class="community">
+        <div class="container community-container">
+            <div class="community-image">
+                <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Community support group discussion">
+            </div>
+            
+            <div class="community-content">
+                <h2>You're Not Alone in This Journey</h2>
+                <p>Quitting smoking is challenging, but you don't have to do it alone. Our community understands what you're going through because we're going through it too.</p>
+                <p>Share your struggles and victories in a judgment-free space. Get real-time support when cravings hit hardest. Celebrate milestones together with people who truly get it.</p>
+                <a href="#" class="btn btn-primary">Explore Community Forums</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Progress Tracker -->
+    <section class="progress-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Track Your Progress</h2>
+                <p>Visualize your journey to becoming smoke-free with our personalized tracking tools.</p>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-header">
+                    <h3>Your Quitting Journey</h3>
+                    <span class="progress-percentage">65% Complete</span>
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                
+                <div class="progress-stats">
+                    <div class="progress-stat">
+                        <div class="progress-number">24</div>
+                        <div class="progress-label">Days Smoke-Free</div>
+                    </div>
+                    
+                    <div class="progress-stat">
+                        <div class="progress-number">₦8,400</div>
+                        <div class="progress-label">Money Saved</div>
+                    </div>
+                    
+                    <div class="progress-stat">
+                        <div class="progress-number">480</div>
+                        <div class="progress-label">Cigarettes Not Smoked</div>
+                    </div>
+                    
+                    <div class="progress-stat">
+                        <div class="progress-number">78%</div>
+                        <div class="progress-label">Psychological Readiness</div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center;">
+                    <a href="#" class="btn btn-success">Start Tracking Your Progress</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>Success Stories</h2>
+                <p>Hear from people who quit smoking with the psychological support of our community.</p>
+            </div>
+            
+            <div class="testimonial-slider">
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        "The PsycheEval assessment revealed I was an emotional smoker. Project Psyche gave me coping strategies that actually worked. After 15 years of smoking, I'm now 8 months smoke-free!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MJ</div>
+                        <div class="author-info">
+                            <h4>Michael Johnson</h4>
+                            <p>Quit for 8 months | Former pack-a-day smoker</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-column">
+                    <h3>Project Psyche</h3>
+                    <p>A psychologically-informed platform to help smokers quit through mutual support, psychological evaluation, and evidence-based resources.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-reddit-alien"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About Project Psyche</a></li>
+                        <li><a href="#">Community Forums</a></li>
+                        <li><a href="#">PsycheEval Assessment</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Psychological Support</h3>
+                    <ul>
+                        <li><a href="#">Coping Strategies</a></li>
+                        <li><a href="#">Mindfulness Exercises</a></li>
+                        <li><a href="#">Find a Psyche Buddy</a></li>
+                        <li><a href="#">Crisis Support</a></li>
+                        <li><a href="#">Mental Health Resources</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Health Resources</h3>
+                    <ul>
+                        <li><a href="#">Benefits Timeline</a></li>
+                        <li><a href="#">Withdrawal Management</a></li>
+                        <li><a href="#">Professional Counseling</a></li>
+                        <li><a href="#">Crisis Hotlines</a></li>
+                        <li><a href="#">Medical Disclaimer</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Project Psyche. All rights reserved. Psychological support platform for smoking cessation.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navMenu = document.querySelector('nav ul');
+            const authButtons = document.querySelector('.auth-buttons');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                const isVisible = navMenu.style.display === 'flex';
+                
+                if (isVisible) {
+                    navMenu.style.display = 'none';
+                    authButtons.style.display = 'none';
+                } else {
+                    navMenu.style.display = 'flex';
+                    navMenu.style.flexDirection = 'column';
+                    navMenu.style.position = 'absolute';
+                    navMenu.style.top = '100%';
+                    navMenu.style.left = '0';
+                    navMenu.style.width = '100%';
+                    navMenu.style.backgroundColor = 'white';
+                    navMenu.style.padding = '20px';
+                    navMenu.style.boxShadow = '0 5px 10px rgba(0,0,0,0.1)';
+                    
+                    authButtons.style.display = 'flex';
+                    authButtons.style.flexDirection = 'column';
+                    authButtons.style.position = 'absolute';
+                    authButtons.style.top = 'calc(100% + 180px)';
+                    authButtons.style.left = '0';
+                    authButtons.style.width = '100%';
+                    authButtons.style.padding = '20px';
+                    authButtons.style.backgroundColor = 'white';
+                    authButtons.style.boxShadow = '0 5px 10px rgba(0,0,0,0.1)';
+                }
+            });
+            
+            // Animate progress bar on scroll
+            const progressFill = document.querySelector('.progress-fill');
+            
+            function animateProgressBar() {
+                const progressSection = document.querySelector('.progress-section');
+                const sectionPosition = progressSection.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (sectionPosition < screenPosition) {
+                    progressFill.style.width = '65%';
+                }
+            }
+            
+            // Set initial state
+            progressFill.style.width = '0%';
+            
+            // Animate on scroll
+            window.addEventListener('scroll', animateProgressBar);
+            
+            // Trigger animation on page load if already in view
+            setTimeout(animateProgressBar, 500);
+            
+            // Testimonial rotation
+            const testimonials = [
+                {
+                    content: "The PsycheEval assessment revealed I was an emotional smoker. Project Psyche gave me coping strategies that actually worked. After 15 years of smoking, I'm now 8 months smoke-free!",
+                    name: "Michael Johnson",
+                    info: "Quit for 8 months | Former pack-a-day smoker",
+                    initials: "MJ"
+                },
+                {
+                    content: "Understanding my psychological triggers through Project Psyche was revolutionary. I've tried quitting 5 times before, but the psychological approach made this attempt successful.",
+                    name: "Sarah Chen",
+                    info: "Quit for 4 months | Former social smoker",
+                    initials: "SC"
+                },
+                {
+                    content: "The combination of community support and psychological tools kept me motivated. I've saved over ₦120,000 in 6 months and my mental health has improved dramatically.",
+                    name: "David Rodriguez",
+                    info: "Quit for 6 months | Former half-pack-a-day smoker",
+                    initials: "DR"
+                }
+            ];
+            
+            let currentTestimonial = 0;
+            const testimonialElement = document.querySelector('.testimonial');
+            
+            function rotateTestimonial() {
+                currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+                const testimonial = testimonials[currentTestimonial];
+                
+                testimonialElement.innerHTML = `
+                    <div class="testimonial-content">
+                        "${testimonial.content}"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">${testimonial.initials}</div>
+                        <div class="author-info">
+                            <h4>${testimonial.name}</h4>
+                            <p>${testimonial.info}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            setInterval(rotateTestimonial, 8000);
+        });
+    </script>
+</body>
+</html>
