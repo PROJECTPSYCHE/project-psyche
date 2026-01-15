@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knight Platform | Project Psyche</title>
+    <style>
+        :root {
+            --primary-white: #FFFFFF;
+            --secondary-white: #F8F9FA;
+            --primary-black: #000000;
+            --secondary-black: #1A1A1A;
+            --accent-gold: #FFD700;
+            --light-gold: #FFF9E6;
+            --accent-green: #4CAF50;
+            --bright-green: #00FF88;
+            --ash-gray: #CCCCCC;
+            --light-ash: #E8E8E8;
+            --dark-ash: #666666;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --border-radius: 10px;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--secondary-white), var(--light-gold));
+            color: var(--primary-black);
+            min-height: 100vh;
+        }
+        
+        .platform-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background: var(--primary-black);
+            color: var(--primary-white);
+            padding: 30px 20px;
+            border-right: 3px solid var(--accent-gold);
+        }
+        
+        .knight-profile {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .knight-avatar-large {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent-gold), var(--bright-green));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--primary-black);
+            font-weight: bold;
+            margin: 0 auto 15px;
+        }
+        
+        .sidebar-nav ul {
+            list-style: none;
+        }
+        
+        .sidebar-nav li {
+            margin-bottom: 10px;
+        }
+        
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            color: var(--ash-gray);
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+        
+        .sidebar-nav a:hover, .sidebar-nav a.active {
+            background: rgba(255, 215, 0, 0.1);
+            color: var(--accent-gold);
+        }
+        
+        .squad-info {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 30px;
+            overflow-y: auto;
+        }
+        
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--light-ash);
+        }
+        
+        .platform-title {
+            font-size: 2rem;
+            color: var(--primary-black);
+        }
+        
+        .platform-title span {
+            color: var(--accent-gold);
+        }
+        
+        .quick-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .action-btn {
+            background: var(--primary-white);
+            border: 2px solid var(--light-ash);
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+        
+        .action-btn:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-2px);
+        }
+        
+        .platform-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+        
+        /* Chat Section */
+        .chat-section {
+            background: var(--primary-white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-header {
+            background: var(--primary-black);
+            color: var(--primary-white);
+            padding: 20px;
+            border-bottom: 2px solid var(--accent-gold);
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 500px;
+        }
+        
+        .message {
+            margin-bottom: 20px;
+            max-width: 80%;
+        }
+        
+        .message.received {
+            margin-right: auto;
+        }
+        
+        .message.sent {
+            margin-left: auto;
+        }
+        
+        .message-content {
+            padding: 15px;
+            border-radius: var(--border-radius);
+            position: relative;
+        }
+        
+        .message.received .message-content {
+            background: var(--secondary-white);
+            border-left: 3px solid var(--accent-gold);
+        }
+        
+        .message.sent .message-content {
+            background: linear-gradient(135deg, var(--light-gold), rgba(255, 215, 0, 0.2));
+            border-right: 3px solid var(--bright-green);
+        }
+        
+        .message-sender {
+            font-weight: 600;
+            color: var(--accent-gold);
+            margin-bottom: 5px;
+        }
+        
+        .chat-input {
+            padding: 20px;
+            border-top: 1px solid var(--light-ash);
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid var(--light-ash);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+        }
+        
+        .chat-input button {
+            background: var(--accent-gold);
+            color: var(--primary-black);
+            border: none;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .chat-input button:hover {
+            background: var(--bright-green);
+        }
+        
+        /* Resources Section */
+        .resources-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .resource-card {
+            background: var(--primary-white);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--light-ash);
+            transition: var(--transition);
+        }
+        
+        .resource-card:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-5px);
+        }
+        
+        .resource-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .resource-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent-gold), var(--bright-green));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-black);
+            font-size: 1.5rem;
+        }
+        
+        .resource-list {
+            list-style: none;
+        }
+        
+        .resource-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--light-ash);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .resource-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .download-btn {
+            background: var(--primary-black);
+            color: var(--primary-white);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        
+        .download-btn:hover {
+            background: var(--accent-gold);
+            color: var(--primary-black);
+        }
+        
+        /* Squad Members */
+        .squad-members {
+            margin-top: 30px;
+        }
+        
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .member-card {
+            background: var(--primary-white);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 2px solid transparent;
+            transition: var(--transition);
+        }
+        
+        .member-card:hover {
+            border-color: var(--accent-gold);
+        }
+        
+        .member-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent-gold), var(--bright-green));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-black);
+            font-weight: bold;
+            margin: 0 auto 10px;
+        }
+        
+        .member-streak {
+            font-size: 0.8rem;
+            color: var(--accent-green);
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="platform-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="knight-profile">
+                <div class="knight-avatar-large" id="platformAvatar">K</div>
+                <h3 id="platformName">Knight</h3>
+                <p style="color: var(--ash-gray); font-size: 0.9rem;">Vanguard Squad</p>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="active"><i class="fas fa-comments"></i> Squad Chat</a></li>
+                    <li><a href="daily-oath.html"><i class="fas fa-handshake"></i> Daily Oath</a></li>
+                    <li><a href="#"><i class="fas fa-file-alt"></i> Resources</a></li>
+                    <li><a href="#"><i class="fas fa-calendar-alt"></i> Progress</a></li>
+                    <li><a href="#"><i class="fas fa-users"></i> Squad Members</a></li>
+                    <li><a href="#"><i class="fas fa-graduation-cap"></i> Training</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+            
+            <div class="squad-info">
+                <h4 style="color: var(--accent-gold); margin-bottom: 10px;">Vanguard Squad</h4>
+                <p style="font-size: 0.9rem; color: var(--ash-gray);">High accountability squad for maximum support. Daily check-ins at 8 AM & 8 PM.</p>
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--ash-gray);">Active Knights:</span>
+                        <span style="color: var(--accent-gold); font-weight: bold;">24</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                        <span style="color: var(--ash-gray);">Squad Streak:</span>
+                        <span style="color: var(--bright-green); font-weight: bold;">42 days</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="content-header">
+                <h1 class="platform-title">Knight <span>Platform</span></h1>
+                <div class="quick-actions">
+                    <button class="action-btn" onclick="window.location.href='daily-oath.html'">
+                        <i class="fas fa-handshake"></i> Take Daily Oath
+                    </button>
+                    <button class="action-btn">
+                        <i class="fas fa-plus"></i> New Resource
+                    </button>
+                </div>
+            </div>
+            
+            <div class="platform-grid">
+                <!-- Squad Chat -->
+                <div class="chat-section">
+                    <div class="chat-header">
+                        <h3><i class="fas fa-users"></i> Vanguard Squad Chat</h3>
+                        <p style="color: var(--ash-gray); font-size: 0.9rem; margin-top: 5px;">Real-time support from your fellow knights</p>
+                    </div>
+                    
+                    <div class="chat-messages" id="squadChatMessages">
+                        <!-- Messages will be loaded here -->
+                    </div>
+                    
+                    <div class="chat-input">
+                        <input type="text" id="chatMessageInput" placeholder="Type your message to the squad...">
+                        <button id="sendChatMessage"><i class="fas fa-paper-plane"></i> Send</button>
+                    </div>
+                </div>
+                
+                <!-- Resources & Files -->
+                <div class="resources-section">
+                    <div class="resource-card">
+                        <div class="resource-header">
+                            <div class="resource-icon">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+                            <div>
+                                <h4>Squad Resources</h4>
+                                <p style="color: var(--dark-ash); font-size: 0.9rem;">Essential documents & guides</p>
+                            </div>
+                        </div>
+                        
+                        <ul class="resource-list">
+                            <li>
+                                <span>Knight's Code of Honor</span>
+                                <button class="download-btn">Download</button>
+                            </li>
+                            <li>
+                                <span>Coping Strategies Guide</span>
+                                <button class="download-btn">Download</button>
+                            </li>
+                            <li>
+                                <span>Progress Tracking Template</span>
+                                <button class="download-btn">Download</button>
+                            </li>
+                            <li>
+                                <span>Weekly Reflection Journal</span>
+                                <button class="download-btn">Download</button>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-header">
+                            <div class="resource-icon">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <div>
+                                <h4>Training Videos</h4>
+                                <p style="color: var(--dark-ash); font-size: 0.9rem;">Psychological techniques</p>
+                            </div>
+                        </div>
+                        
+                        <ul class="resource-list">
+                            <li>
+                                <span>Mindfulness for Cravings</span>
+                                <button class="download-btn">Watch</button>
+                            </li>
+                            <li>
+                                <span>Breaking Habit Loops</span>
+                                <button class="download-btn">Watch</button>
+                            </li>
+                            <li>
+                                <span>Stress Management</span>
+                                <button class="download-btn">Watch</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Squad Members -->
+            <div class="squad-members">
+                <h3 style="margin-bottom: 20px; color: var(--primary-black);">
+                    <i class="fas fa-shield-alt"></i> Squad Members
+                </h3>
+                
+                <div class="members-grid" id="squadMembersGrid">
+                    <!-- Squad members will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Load knight info
+        const platformName = localStorage.getItem('knightName') || 'Knight';
+        const platformInitial = platformName.charAt(0).toUpperCase();
+        
+        document.getElementById('platformName').textContent = platformName;
+        document.getElementById('platformAvatar').textContent = platformInitial;
+        
+        // Chat System
+        const chatMessages = document.getElementById('squadChatMessages');
+        const chatMessageInput = document.getElementById('chatMessageInput');
+        const sendChatMessage = document.getElementById('sendChatMessage');
+        
+        function loadChatMessages() {
+            const messages = JSON.parse(localStorage.getItem('squadChat')) || [];
+            chatMessages.innerHTML = '';
+            
+            messages.forEach(msg => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${msg.sender === platformName ? 'sent' : 'received'}`;
+                
+                messageDiv.innerHTML = `
+                    <div class="message-content">
+                        <div class="message-sender">${msg.sender}</div>
+                        <div>${msg.message}</div>
+                        <div style="font-size: 0.8rem; color: var(--dark-ash); margin-top: 5px;">
+                            ${new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                        </div>
+                    </div>
+                `;
+                
+                chatMessages.appendChild(messageDiv);
+            });
+            
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function addChatMessage(sender, message) {
+            const messages = JSON.parse(localStorage.getItem('squadChat')) || [];
+            messages.push({
+                sender,
+                message,
+                timestamp: new Date().toISOString()
+            });
+            
+            // Keep only last 100 messages
+            if (messages.length > 100) {
+                messages.shift();
+            }
+            
+            localStorage.setItem('squadChat', JSON.stringify(messages));
+            loadChatMessages();
+        }
+        
+        sendChatMessage.addEventListener('click', function() {
+            const message = chatMessageInput.value.trim();
+            if (message) {
+                addChatMessage(platformName, message);
+                chatMessageInput.value = '';
+            }
+        });
+        
+        chatMessageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendChatMessage.click();
+            }
+        });
+        
+        // Squad Members
+        const squadMembers = [
+            { name: 'Sir William', streak: 42, initial: 'W' },
+            { name: 'Lady Sophia', streak: 35, initial: 'S' },
+            { name: 'Knight Marcus', streak: 28, initial: 'M' },
+            { name: 'Dame Isabella', streak: 56, initial: 'I' },
+            { name: 'Sir Benjamin', streak: 21, initial: 'B' },
+            { name: 'Lady Charlotte', streak: 49, initial: 'C' }
+        ];
+        
+        function loadSquadMembers() {
+            const membersGrid = document.getElementById('squadMembersGrid');
+            membersGrid.innerHTML = '';
+            
+            squadMembers.forEach(member => {
+                const memberCard = document.createElement('div');
+                memberCard.className = 'member-card';
+                
+                memberCard.innerHTML = `
+                    <div class="member-avatar">${member.initial}</div>
+                    <div style="font-weight: 600;">${member.name}</div>
+                    <div class="member-streak">${member.streak} days</div>
+                `;
+                
+                membersGrid.appendChild(memberCard);
+            });
+        }
+        
+        // Preload some chat messages
+        if (!localStorage.getItem('squadChat')) {
+            const defaultChat = [
+                {sender: 'Sir William', message: 'Good morning, knights! Ready for today\'s challenge? 🛡️', timestamp: new Date(Date.now() - 7200000).toISOString()},
+                {sender: 'Lady Sophia', message: 'Morning! I\'ve taken my oath. Remember, we\'re stronger together! 💪', timestamp: new Date(Date.now() - 7100000).toISOString()},
+                {sender: 'Knight Marcus', message: 'Struggled with cravings yesterday, but the breathing technique helped. Thanks for the tip!', timestamp: new Date(Date.now() - 7000000).toISOString()},
+                {sender: 'Dame Isabella', message: 'That\'s great progress, Marcus! Every craving resisted makes us stronger. ⚔️', timestamp: new Date(Date.now() - 6900000).toISOString()}
+            ];
+            localStorage.setItem('squadChat', JSON.stringify(defaultChat));
+        }
+        
+        // Auto-refresh chat every 10 seconds
+        setInterval(loadChatMessages, 10000);
+        
+        // Initialize
+        loadChatMessages();
+        loadSquadMembers();
+        
+        // Auto-welcome message
+        const welcomeSent = localStorage.getItem('welcomeSent');
+        if (!welcomeSent) {
+            setTimeout(() => {
+                addChatMessage(platformName, 'Hello squad! Just joined the platform. Ready to fight alongside you all! 🛡️');
+                localStorage.setItem('welcomeSent', 'true');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
